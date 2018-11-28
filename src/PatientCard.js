@@ -27,7 +27,7 @@ class PatientCard extends Component {
       return (
         <div class="card patient-card">
           <div class="card-body">
-            <h5 class="card-title">No Patient</h5>
+            <h5 class="card-title">Unnamed Patient</h5>
           </div>
         </div>
       )
