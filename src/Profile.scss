@@ -1,0 +1,16 @@
+.source-col {
+	word-wrap: break-word;
+	max-height: 5em;
+	overflow: scroll;
+}
+
+.profile-page {
+	@extend .row;
+	.card-footer .row {
+		margin-bottom: .2em
+	}
+}
+
+.profile-card {
+	margin-bottom: 2em;
+}

@@ -1,0 +1,31 @@
+@import "~bootstrap/scss/bootstrap";
+
+body {
+  margin: 0;
+  font-family: sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: transparent !important;
+}
+
+h1,h2,h3,h4,h5,h6 {
+  font-weight: 700;
+}
+
+.App-body {
+  background-color: transparent !important;
+  min-height: 100vh;
+}
+
+.App-content {
+  // padding-top: 2.5em 0 1em;
+  @extend .container;
+  padding-top: 2em;
+  padding-bottom: 3.5em
+}
+
+@import "./Patient.scss";
+@import "./Profile.scss";
+@import "./Spinner.scss";
+
+

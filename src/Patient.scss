@@ -1,0 +1,15 @@
+.patient-card {
+	margin-bottom: 2em;
+  .card {
+    // max-width: 25em;
+    table {
+      // margin: 1em 0 0 ;
+      th {
+        padding-left: 0;
+      }
+    }
+  }
+}
+.patient-page {
+	@extend .row
+}
