@@ -14,7 +14,7 @@ export default class Nav extends Component {
 
         </div>
         <a class="navbar-brand" href="#">
-          <img src="ifirst.png" width="30" height="30"/>
+          <img src="/ifirst.png" width="30" height="30"/>
         </a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>

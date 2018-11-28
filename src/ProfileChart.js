@@ -114,7 +114,7 @@ class ProfileChart extends Component {
 
 
         <Tooltip crosshairs={{type : "y"}}/>
-        <Geom type="line" position="maxDate*ci" size={3} color={'time', ['#007bff', '#007bff']}/>
+        <Geom type="line" position="maxDate*ci" size={2} color={'time', ['#007bff', '#007bff']}/>
       
       </Chart>
     )

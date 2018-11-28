@@ -14,7 +14,7 @@ export const CREATE_PROFILE = gql`
 
 export const ALL_PROFILES = gql`
   query {
-    allProfiles(orderBy: createdAt_DESC) {
+    allProfiles(orderBy: createdAt_DESC, filter: { isArchived: false }) {
         id,
 
         # timestamps
@@ -50,7 +50,8 @@ export const ALL_PROFILES = gql`
             id
         }
         patient {
-            id
+            id,
+            name
         }
     }
   }`
@@ -59,6 +60,7 @@ export const GET_PROFILE = gql`
   query profileQuery($id: ID!) {
     profile: Profile(id: $id) {
         id,
+        isArchived,
 
         # timestamps
         createdAt,
@@ -98,13 +100,15 @@ export const GET_PROFILE = gql`
         }
 
         patient {
-            id
+            id,
+            name
         }
     }
   }`
 
 export const UPDATE_PROFILE_MUTATION = gql`
   mutation($profileId: ID!,
+    $isArchived: Boolean,
     $testBeganAt: DateTime,
     $testEndedAt: DateTime,
     $bloodInjectedAt: DateTime,
@@ -119,6 +123,7 @@ export const UPDATE_PROFILE_MUTATION = gql`
     $ly30OscillationId: ID ) {
 
     updateProfile(  id: $profileId, 
+                    isArchived: $isArchived,
                     testBeganAt: $testBeganAt,
                     testEndedAt: $testEndedAt,
                     bloodInjectedAt: $bloodInjectedAt,

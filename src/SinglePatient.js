@@ -22,7 +22,6 @@ class SinglePatient extends Component {
           <PatientCard patientId={_this.props.match.params.id } />
         </div>
         <div class="col-md-7">
-          <h3>Profiles</h3>
           <PatientProfiles patientId={_this.props.match.params.id} />
         </div>
       </div>

@@ -8,18 +8,31 @@ import ProfileChart from './ProfileChart'
 
 import PatientCard from './PatientCard'
 
-import {GET_PROFILE} from './profile'
+import {GET_PROFILE, UPDATE_PROFILE_MUTATION} from './profile'
 
 class SingleProfile extends Component {
   constructor(props) {
     super(props)
   }
 
+  deleteProfile(id) {
+    let confirmed = window.confirm("Are you sure that you want to archive this profile?");
+    if (confirmed) {
+      this.props.updateProfileMutation({variables:{profileId: id, isArchived:true}})
+    }
+  }
+
   render() {
     let _this = this
 
     return (
-          <Query query={GET_PROFILE} variables={{ id:  _this.props.match.params.id }} pollInterval={1000}>
+          <Query query={GET_PROFILE} variables={{ id:  _this.props.match.params.id }} pollInterval={1000} onCompleted={(data) => {
+            // AUTODELETE HACK
+
+            // if (data.profile.oscillations.length < 11) {
+            //     _this.props.updateProfileMutation({variables:{profileId: data.profile.id, isArchived:true}})
+            // }
+          }}>
             {({ loading, error, data }) => {
               if (loading) return (
                   <div class="spinner-overlay">
@@ -59,10 +72,15 @@ class SingleProfile extends Component {
               let ma = profile.maOscillation == null ? "..." : profile.maOscillation.coagulationIndex.toFixed(3) + ' mm'
               let ly30ratio = profile.ly30Ratio == null ? "..." : (profile.ly30Ratio * 100).toFixed(3) + '%'
 
+              let archivedBadge = (profile.isArchived == true) ? 
+                (<span className={"badge badge-pill float-right badge-info"}>
+                  Archived
+                </span>) : null
               return (
                 <div class="profile-page">
                   <div class="col-md-7">
                     <a class="btn btn-link" href={"/profiles"+(window.location.pathname.includes('api') ? '/api' : '')}>← All Profiles</a>
+                    {archivedBadge}
                     <div className="card profile-card">
                       <div className="card-header text-center">
                         <h5 className="card-title">{patientName}</h5>
@@ -93,11 +111,18 @@ class SingleProfile extends Component {
 
                         <hr />
                         {this.detailJsx('Source', source)}
+
+                        <hr />
+                        <div class="text-right">
+                          <a href="#" class="card-link text-danger" onClick={() => {
+                            _this.deleteProfile(profile.id)
+                          }}>Archive</a>
+                        </div>
+
                       </div>
                     </div>
                   </div>
                   <div class="col-md-5">
-                    <h3>Patient</h3>
                     <PatientCard patientId={patient != null ? patient.id : null} />
                   </div>
                 </div>
@@ -128,4 +153,6 @@ class SingleProfile extends Component {
 }
 
 //https://github.com/alibaba/BizCharts/blob/master/doc_en/api/axis.md
-export default SingleProfile
+export default compose(
+  graphql(UPDATE_PROFILE_MUTATION, {name: 'updateProfileMutation'}))
+(SingleProfile)

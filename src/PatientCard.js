@@ -6,11 +6,18 @@ import TimeElapsed from './TimeElapsed'
 import TimeElapsedString from './TimeElapsedString'
 import ProfileChart from './ProfileChart'
 
-import {GET_PATIENT} from './patient'
+import {GET_PATIENT, UPDATE_PATIENT_MUTATION} from './patient'
 
 class PatientCard extends Component {
   constructor(props) {
     super(props)
+  }
+
+  deletePatient(id) {
+    let confirmed = window.confirm("Are you sure that you want to archive this patient?");
+    if (confirmed) {
+      this.props.updatePatientMutation({variables:{patientId: id, isArchived:true}})
+    }
   }
 
   render() {
@@ -20,7 +27,7 @@ class PatientCard extends Component {
       return (
         <div class="card patient-card">
           <div class="card-body">
-            <h5 class="card-title">Empty Patient</h5>
+            <h5 class="card-title">No Patient</h5>
           </div>
         </div>
       )
@@ -46,11 +53,16 @@ class PatientCard extends Component {
                     </div>
                   </div>);
             } else {
-              let { id, hospitalID, name, bloodType, dateOfBirth, ethnicity, profiles, createdAt, updatedAt} = data.patient
+              let { id, isArchived, hospitalID, name, bloodType, dateOfBirth, ethnicity, profiles, createdAt, updatedAt} = data.patient
+              let archivedBadge = (isArchived == true) ? 
+              (<span className={"badge badge-pill float-right badge-info"}>
+                Archived
+              </span>) : null
+
               return (
                 <div class="card patient-card">
                   <div class="card-body">
-                    <h5 class="card-title">{name}</h5>
+                    <h5 class="card-title">{name}{archivedBadge}</h5>
                     <h6 class="card-subtitle mb-2 text-muted">{hospitalID}</h6>
                       <table class="table">
                         <tbody>
@@ -61,9 +73,10 @@ class PatientCard extends Component {
                         </tbody>
                       </table>
 
+                      <hr />
                       <div class="text-right">
-                        <a href="#" class="card-link">Edit</a>
-                        <a href="#" class="card-link">Delete</a>
+                        <a href="#" class="card-link text-danger" onClick={() => {
+                          _this.deletePatient(id) }}>Delete</a>
                       </div>
                   </div>
                 </div>
@@ -77,4 +90,7 @@ class PatientCard extends Component {
 }
 
 //https://github.com/alibaba/BizCharts/blob/master/doc_en/api/axis.md
-export default PatientCard
+export default compose(
+  graphql(UPDATE_PATIENT_MUTATION, {name: 'updatePatientMutation'}))
+(PatientCard)
+

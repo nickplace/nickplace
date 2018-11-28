@@ -28,17 +28,16 @@ class ProfileList extends Component {
 
     return (
       <div class="profiles-list">
-        <h1>Profiles</h1>
-
-          <div class="list-group">
-            <div class="list-group-item list-group-item-secondary">
-              <div class="row ">
+          <h1>Profiles</h1>
+          <div class="list-group list-group-flush">
+            <div class="list-group-item sticky-top list-group-item-light">
+              <div class="row">
                 <div class="col-sm-2 font-weight-bold">Patient Name</div>
                 <div class="col-sm-2">Began At</div>
                 <div class="col-sm-2">Oscillations</div>
                 <div class="col-sm-4 source-col">Source</div>
                 <div class="col-sm-2">
-                  <span className={"badge badge-pill badge-primary"}>Test Status</span>
+                  <span className={"badge badge-pill badge-light"}>Test Status</span>
                 </div>
               </div>
             </div>

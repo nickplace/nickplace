@@ -17,7 +17,7 @@ class PatientList extends Component {
     return (
       <div>
         <h1>Patients</h1>
-        <div class="list-group">
+        <div class="list-group list-group-flush">
           <Query query={ALL_PATIENTS} pollInterval={5000}>
             {({ loading, error, data }) => {
               if (loading) return (<div class="spinner-overlay">
