@@ -29,21 +29,26 @@ export const ALL_PROFILES = gql`
 
         #parameters
         rOscillation {
+            id,
             maxDate
         },
         kOscillation{
+            id,
             maxDate
         },
         alphaAngle,
         maOscillation{
+            id,
             maxDate, coagulationIndex
         },
         ly30Ratio,
         ly30Oscillation{
+            id,
             maxDate
         },
         baselineSweepWidth,
         baselineOscillation{
+            id,
             maxDate
         },
         oscillations {
