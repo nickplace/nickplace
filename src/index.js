@@ -28,6 +28,7 @@ ReactDOM.render(
       	<div class="App-body">
 	        {window.location.pathname.includes('api') ? null :  <Nav /> }
 	        <div class="App-content">
+            <Route path="/" component={ProfileList} />
 		        <Route path="/profiles" component={ProfileList} />
 		        <Route path="/patients" component={PatientList} />
 		        <Route path="/profile/:id" component={SingleProfile} />
