@@ -15,7 +15,8 @@ import { ApolloProvider } from 'react-apollo';
 import { ApolloClient, HttpLink, InMemoryCache } from 'apollo-client-preset'
 
 // const httpLink = new HttpLink({ uri:  process.env.API_BASE })
-const httpLink = new HttpLink({ uri: 'https://api.graph.cool/simple/v1/cjo4sxik93ih50155txkz8m0i' })
+// const httpLink = new HttpLink({ uri: 'https://api.graph.cool/simple/v1/cjo4sxik93ih50155txkz8m0i' })
+const httpLink = new HttpLink({ uri: 'http://localhost:60000/simple/v1/cjo8zndw700060105tz4pbbc5' })
 
 const client = new ApolloClient({
   link: httpLink,

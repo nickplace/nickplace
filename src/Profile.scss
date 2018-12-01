@@ -13,4 +13,15 @@
 
 .profile-card {
 	margin-bottom: 2em;
+	.card-footer {
+		padding-right: 1em;
+		padding-left: 1em;
+	}
+	#chart {
+		width: 110%;
+		text-align: center;
+		overflow: scroll;
+		margin: -1em -1em 0;
+	}
 }
+	

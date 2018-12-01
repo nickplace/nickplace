@@ -71,6 +71,7 @@ export const GET_PROFILE = gql`
         createdAt,
         updatedAt,
         bloodInjectedAt,
+        cartridgeInsertedAt,
         testBeganAt,
         testEndedAt,
 

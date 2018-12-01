@@ -26,13 +26,7 @@ class SingleProfile extends Component {
     let _this = this
 
     return (
-          <Query query={GET_PROFILE} variables={{ id:  _this.props.match.params.id }} pollInterval={1000} onCompleted={(data) => {
-            // AUTODELETE HACK
-
-            // if (data.profile.oscillations.length < 11) {
-            //     _this.props.updateProfileMutation({variables:{profileId: data.profile.id, isArchived:true}})
-            // }
-          }}>
+          <Query query={GET_PROFILE} variables={{ id:  _this.props.match.params.id }} pollInterval={1000}>
             {({ loading, error, data }) => {
               if (loading) return (
                   <div class="spinner-overlay">
@@ -59,18 +53,28 @@ class SingleProfile extends Component {
               let profile = data.profile
               let patient = data.patient
 
-              let statusText = (profile.status < 2) ? "In Progress" : "Completed"
-              let statusClass = (profile.status < 2) ? "badge-info" : "badge-success"
+              let statuses = ['New', 'In progress', 'Completed', 'Errored']
+              let statusClasses = ['badge-secondary', 'badge-info', 'badge-success', 'badge-danger']
+              let statusText = statuses[profile.status]
+              let statusClass = statusClasses[profile.status]
 
               let patientName = (patient == null) ? "Unnamed Patient" : patient.name
-              let testBeganAt = profile.testBeganAt == null ? "Waiting..." : new Date(Date.parse(profile.testBeganAt)).toLocaleString()
+              let testBeganAt = profile.testBeganAt == null ? "..." : new Date(Date.parse(profile.testBeganAt)).toLocaleString()
+              let testEndedAt = profile.testEndedAt == null ? "..." : new Date(Date.parse(profile.testEndedAt)).toLocaleString()
+              let createdAt = profile.createdAt == null ? "..." : new Date(Date.parse(profile.createdAt)).toLocaleString()
+              let cartridgeInsertedAt = profile.cartridgeInsertedAt == null ? "..." : new Date(Date.parse(profile.cartridgeInsertedAt)).toLocaleString()
+              let bloodInjectedAt = profile.bloodInjectedAt == null ? "..." : new Date(Date.parse(profile.bloodInjectedAt)).toLocaleString()
               let source = profile.videoName == null ? "Back-Facing Camera" : profile.videoName
 
               let Tr = profile.rOscillation == null ? "..." : TimeElapsedString(profile.rOscillation.maxDate)
+              let TrDate = profile.rOscillation == null ? "..." : TimeElapsedString(profile.rOscillation.maxDate)
               let Tk = profile.kOscillation == null ? "..." : TimeElapsedString(profile.kOscillation.maxDate - profile.rOscillation.maxDate)
+              let TkDate = profile.rOscillation == null ? "..." : TimeElapsedString(profile.kOscillation.maxDate)
               let alpha = profile.alphaAngle == null ? "..." : profile.alphaAngle.toFixed(3) + 'º'
               let ma = profile.maOscillation == null ? "..." : profile.maOscillation.coagulationIndex.toFixed(3) + ' mm'
+              let maDate = profile.maOscillation == null ? "..." : TimeElapsedString(profile.maOscillation.maxDate)
               let ly30ratio = profile.ly30Ratio == null ? "..." : (profile.ly30Ratio * 100).toFixed(3) + '%'
+              let ly30Date = profile.ly30Oscillation == null ? "..." : TimeElapsedString(profile.ly30Oscillation.maxDate)
 
               let archivedBadge = (profile.isArchived == true) ? 
                 (<span className={"badge badge-pill float-right badge-info"}>
@@ -87,7 +91,7 @@ class SingleProfile extends Component {
                         <h6 className="card-subtitle mb-2 text-muted">{testBeganAt}</h6>
                       </div>
                       <div className="card-body">
-                        <div id="chart" style={{width:'100%', textAlign: 'center', overflow:'scroll'}}>
+                        <div id="chart">
                           <div style={{height:250}}>
                             <ProfileChart profile={profile} />
                           </div>
@@ -95,24 +99,29 @@ class SingleProfile extends Component {
 
                         <div>
                           <TimeElapsed profile={profile} />
-                          <h5 style={{textAlign:'center'}}>
-                            <span className={"badge badge-pill " + statusClass}>
-                              Test Status: {statusText}
+                          <h4 style={{textAlign:'center', margin:'-.6em 0 0'}}>
+                            <span className={"badge " + statusClass}>
+                              {statusText}
                             </span>
-                          </h5>
+                          </h4>
                         </div>
                       </div>
                       <div class="card-footer">
                         {this.paramJsx('T(r)', Tr)}
-                        {this.paramJsx('T(k)', Tk)}
+                        {this.paramJsx('T(k)', Tk, TkDate)}
                         {this.paramJsx('alpha', alpha)}
-                        {this.paramJsx('MA', ma)}
-                        {this.paramJsx('LY30', ly30ratio)}
-
-                        <hr />
+                        {this.paramJsx('MA', ma, maDate)}
+                        {this.paramJsx('LY30', ly30ratio, ly30Date)}
+                        <strong>Events</strong>
+                        <hr/>
+                        {this.detailJsx('Initialized', createdAt)}
+                        {this.detailJsx('Inserted cartridge', cartridgeInsertedAt)}
+                        {this.detailJsx('Injected blood', bloodInjectedAt)}
+                        {this.detailJsx('Test Began', testBeganAt)}
+                        {this.detailJsx('Test Ended', testEndedAt)}
+                        <strong>Information</strong>
                         {this.detailJsx('Source', source)}
 
-                        <hr />
                         <div class="text-right">
                           <a href="#" class="card-link text-danger" onClick={() => {
                             _this.deleteProfile(profile.id)
@@ -133,11 +142,24 @@ class SingleProfile extends Component {
     );
   }
 
-  paramJsx(label, value) {
+  paramJsx(label, value, timestamp) {
     return (
       <div className="row">
-        <div class="col-4 text-right">{label}</div>
-        <div class="col"><strong>{value}</strong></div>
+        <div class="col-3">
+          <h5>{label}</h5>
+        </div>
+        <div class="col-5 text-right">
+          <span class="text-muted">Value</span><br/>
+          {timestamp != null ? <span class="text-muted">Timestamp</span> : null}
+        </div>
+        <div class="col-4">
+          {value}<br/>
+          {timestamp}
+        </div>
+
+        <div class="col-12">
+          <hr/>
+        </div>
       </div>
       );
   }
@@ -145,14 +167,21 @@ class SingleProfile extends Component {
   detailJsx(label, value) {
     return (
       <div className="row">
-        <div class="col-4 text-right">{label}</div>
-        <div class="col"><strong>{value}</strong></div>
+        <div class="col-4 text-right">
+          <span class="text-muted">{label}</span><br/>
+        </div>
+        <div class="col-8">
+          {value}
+        </div>
+        <div class="col-12">
+          <hr/>
+        </div>
       </div>
       );
   }
 }
 
-//https://github.com/alibaba/BizCharts/blob/master/doc_en/api/axis.md
+//https://github.com/alibaba/BizCharts/blob/master/doc_e...pi/axis.md
 export default compose(
   graphql(UPDATE_PROFILE_MUTATION, {name: 'updateProfileMutation'}))
 (SingleProfile)

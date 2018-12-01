@@ -33,7 +33,9 @@ class ProfileChart extends Component {
   }
 
   componentDidMount() {
-    document.getElementById("chart").scrollLeft = 1000000;
+    setTimeout(function() {
+      document.getElementById("chart").scrollLeft = 1000000;
+    }, 200)
   }
 
   static getDerivedStateFromProps(nextProps, prevState){
@@ -75,7 +77,7 @@ class ProfileChart extends Component {
 
     return   (   
       <Chart 
-        padding={[30,75,20,50]} 
+        padding={[30,55,20,50]} 
         height={200} 
         width={2000} 
         data={this.state.dv} 
