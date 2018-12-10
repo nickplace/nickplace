@@ -42,7 +42,7 @@ class ProfileList extends Component {
               </div>
             </div>
 
-            <Query query={ALL_PROFILES} pollInterval={5000}>
+            <Query query={ALL_PROFILES} pollInterval={5000} >
               {({ loading, error, data }) => {
                 if (loading) return (<div class="spinner-overlay">
                     <div class="spinner center">

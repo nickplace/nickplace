@@ -33,9 +33,9 @@ class ProfileChart extends Component {
   }
 
   componentDidMount() {
-    setTimeout(function() {
-      document.getElementById("chart").scrollLeft = 1000000;
-    }, 200)
+    // setTimeout(function() {
+    //   document.getElementById("chart").scrollLeft = 1000000;
+    // }, 200)
   }
 
   static getDerivedStateFromProps(nextProps, prevState){
@@ -61,8 +61,8 @@ class ProfileChart extends Component {
       var firstOscillation = this.props.profile.oscillations[(this.props.profile.oscillations.length > 1) ? 1 : 0]
 
       colsDateScale = {
-        max: lastOscillation.maxDate, 
-        min: lastOscillation.maxDate - 3200000,
+        min: firstOscillation.maxDate, 
+        max: firstOscillation.maxDate + 3200000,
         tickInterval: 160000,
         nice: false
       }
@@ -77,7 +77,7 @@ class ProfileChart extends Component {
 
     return   (   
       <Chart 
-        padding={[30,55,20,50]} 
+        padding={[30,50,20,50]} 
         height={200} 
         width={2000} 
         data={this.state.dv} 
@@ -85,7 +85,7 @@ class ProfileChart extends Component {
 
         <Axis
           name="ci"
-          position="right"
+          position="left"
           label={
             {
               formatter: val => `${val} mm`,

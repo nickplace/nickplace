@@ -15,7 +15,6 @@ class TimeElapsed extends Component {
   }
 
   componentDidMount() {
-    document.getElementById("chart").scrollLeft = 100000;
     var _this = this
 
     // set an interval to update time elapsed label
@@ -27,7 +26,7 @@ class TimeElapsed extends Component {
         let timeElapsedString = TimeElapsedString(timeStarted, timeEnded)
 
         _this.setState({timeElapsed: timeElapsedString})
-      }, 10)
+      }, 40)
 
   }
   render() {

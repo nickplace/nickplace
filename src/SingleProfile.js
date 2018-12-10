@@ -69,7 +69,7 @@ class SingleProfile extends Component {
               let Tr = profile.rOscillation == null ? "..." : TimeElapsedString(profile.rOscillation.maxDate)
               let TrDate = profile.rOscillation == null ? "..." : TimeElapsedString(profile.rOscillation.maxDate)
               let Tk = profile.kOscillation == null ? "..." : TimeElapsedString(profile.kOscillation.maxDate - profile.rOscillation.maxDate)
-              let TkDate = profile.rOscillation == null ? "..." : TimeElapsedString(profile.kOscillation.maxDate)
+              let TkDate = profile.kOscillation == null ? "..." : TimeElapsedString(profile.kOscillation.maxDate)
               let alpha = profile.alphaAngle == null ? "..." : profile.alphaAngle.toFixed(3) + 'º'
               let ma = profile.maOscillation == null ? "..." : profile.maOscillation.coagulationIndex.toFixed(3) + ' mm'
               let maDate = profile.maOscillation == null ? "..." : TimeElapsedString(profile.maOscillation.maxDate)
@@ -152,7 +152,7 @@ class SingleProfile extends Component {
           <span class="text-muted">Value</span><br/>
           {timestamp != null ? <span class="text-muted">Timestamp</span> : null}
         </div>
-        <div class="col-4">
+        <div class="col-4" style={{fontWeight:700}}>
           {value}<br/>
           {timestamp}
         </div>
