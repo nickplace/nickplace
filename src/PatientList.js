@@ -16,7 +16,9 @@ class PatientList extends Component {
 
     return (
       <div>
-        <h1>Patients</h1>
+        <div class="sticky-top header"> 
+        <h1 class="sticky-top">Patients</h1>
+        </div>
         <div class="list-group list-group-flush">
           <Query query={ALL_PATIENTS} pollInterval={5000}>
             {({ loading, error, data }) => {

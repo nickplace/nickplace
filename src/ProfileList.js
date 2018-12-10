@@ -28,6 +28,7 @@ class ProfileList extends Component {
 
     return (
       <div class="profiles-list">
+          <div class="sticky-top header"> 
           <h1>Profiles</h1>
           <div class="list-group list-group-flush">
             <div class="list-group-item sticky-top list-group-item-light">
@@ -41,6 +42,10 @@ class ProfileList extends Component {
                 </div>
               </div>
             </div>
+          </div>
+          </div>
+          <div class="list-group list-group-flush">
+
 
             <Query query={ALL_PROFILES} pollInterval={5000} >
               {({ loading, error, data }) => {

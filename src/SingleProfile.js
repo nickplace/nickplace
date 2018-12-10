@@ -13,6 +13,7 @@ import {GET_PROFILE, UPDATE_PROFILE_MUTATION} from './profile'
 class SingleProfile extends Component {
   constructor(props) {
     super(props)
+    // this.props.updateProfileMutation({variables:{profileId: this.props.match.params.id, isArchived:false}})
   }
 
   deleteProfile(id) {

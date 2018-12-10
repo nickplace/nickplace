@@ -23,8 +23,16 @@ h1,h2,h3,h4,h5,h6 {
 .App-content {
   // padding-top: 2.5em 0 1em;
   @extend .container;
-  padding-top: 2.5em;
+  // padding-top: 2.5em;
   padding-bottom: 3.5em
+}
+
+.header {
+  background: #fff;
+  padding-top: 2.5em;
+  h1 {
+    padding-left: .2em;
+  }
 }
 
 @import "./Patient.scss";
